@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import Image from "next/image";
 import { PhotoGallery } from "@/components/ui/gallery";
@@ -24,9 +23,11 @@ export default function Home() {
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <div className="flex items-center font-black text-xl text-white tracking-tight">
             {/* Logo LajuRide */}
-            <img
+            <Image
               src="/logo_lajuride.png"
               alt="Logo LajuRide"
+              width={120}
+              height={32}
               className="h-8 w-auto brightness-0 invert"
             />
           </div>
@@ -55,9 +56,12 @@ export default function Home() {
         
         <div className="max-w-4xl mx-auto relative z-10 flex flex-col items-center">
           <div className="mb-6 flex justify-center drop-shadow-2xl">
-            <img
+            <Image
               src="/logo_lajuride.png"
               alt="Logo LajuRide Besar"
+              width={360}
+              height={96}
+              priority
               className="h-24 w-auto brightness-0 invert"
             />
           </div>
@@ -211,6 +215,7 @@ export default function Home() {
             className="w-full h-full rounded-[1.5rem] opacity-90 hover:opacity-100 transition-opacity"
             src="https://embed.figma.com/design/HzzlT0lPCgcQ1OHiitJajm/Untitled?node-id=395-2270&embed-host=share"
             allowFullScreen
+            loading="lazy"
           ></iframe>
         </div>
 
@@ -364,6 +369,7 @@ export default function Home() {
                   className="w-full h-full opacity-90 hover:opacity-100 transition-opacity"
                   src="https://embed.figma.com/design/HzzlT0lPCgcQ1OHiitJajm/Untitled?node-id=498-6887&embed-host=share"
                   allowFullScreen
+                  loading="lazy"
                 ></iframe>
               </div>
             </div>
@@ -377,6 +383,7 @@ export default function Home() {
                   className="w-full h-full opacity-90 hover:opacity-100 transition-opacity"
                   src="https://embed.figma.com/design/HzzlT0lPCgcQ1OHiitJajm/Untitled?node-id=395-2170&embed-host=share"
                   allowFullScreen
+                  loading="lazy"
                 ></iframe>
               </div>
             </div>
@@ -390,6 +397,7 @@ export default function Home() {
                   className="w-full h-full opacity-90 hover:opacity-100 transition-opacity"
                   src="https://embed.figma.com/design/HzzlT0lPCgcQ1OHiitJajm/Untitled?node-id=438-3068&embed-host=share"
                   allowFullScreen
+                  loading="lazy"
                 ></iframe>
               </div>
             </div>
@@ -403,6 +411,7 @@ export default function Home() {
                   className="w-full h-full opacity-90 hover:opacity-100 transition-opacity"
                   src="https://embed.figma.com/design/HzzlT0lPCgcQ1OHiitJajm/Untitled?node-id=395-2120&embed-host=share"
                   allowFullScreen
+                  loading="lazy"
                 ></iframe>
               </div>
             </div>
@@ -416,6 +425,7 @@ export default function Home() {
                   className="w-full h-full opacity-90 hover:opacity-100 transition-opacity"
                   src="https://embed.figma.com/design/HzzlT0lPCgcQ1OHiitJajm/Untitled?node-id=453-4605&embed-host=share"
                   allowFullScreen
+                  loading="lazy"
                 ></iframe>
               </div>
             </div>
@@ -446,6 +456,7 @@ export default function Home() {
             className="w-full h-full opacity-90 hover:opacity-100 transition-opacity"
             src="https://embed.figma.com/proto/HzzlT0lPCgcQ1OHiitJajm/Untitled?node-id=134-5&p=f&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=134%3A5&embed-host=share"
             allowFullScreen
+            loading="lazy"
             style={{ border: "1px solid rgba(0, 0, 0, 0.1)" }}
           ></iframe>
         </div>
