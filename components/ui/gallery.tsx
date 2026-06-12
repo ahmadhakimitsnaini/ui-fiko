@@ -246,7 +246,7 @@ export const Photo = ({
       }}
       className={cn(
         className,
-        "absolute left-0 top-0 mx-auto shrink-0 cursor-grab active:cursor-grabbing shadow-[0_15px_30px_rgba(0,0,0,0.4)]",
+        "absolute left-0 top-0 mx-auto shrink-0 cursor-grab active:cursor-grabbing shadow-[0_15px_30px_rgba(0,0,0,0.4)] will-change-transform",
       )}
       draggable={false}
       tabIndex={0}
@@ -255,6 +255,7 @@ export const Photo = ({
         <Image
           className={cn("rounded-2xl object-cover")}
           fill
+          sizes="(max-width: 768px) 100vw, 250px"
           src={src}
           alt={alt}
           {...props}
