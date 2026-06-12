@@ -1,11 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+
+import AwalImg from "../asset/Awal.jpg";
+import BerandaImg from "../asset/BERANDA.jpg";
+import LoginImg from "../asset/Login.jpg";
+import MencariDriverImg from "../asset/MENCARI DRIVER.jpg";
+import PesananSelesaiImg from "../asset/PESANAN SELESAI.jpg";
 
 export const PhotoGallery = ({
   animationDelay = 0.5,
@@ -85,7 +91,7 @@ export const PhotoGallery = ({
       rotation: -3,
       zIndex: 50,
       direction: "left" as Direction,
-      src: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&auto=format&fit=crop&q=60",
+      src: AwalImg,
     },
     {
       id: 2,
@@ -95,7 +101,7 @@ export const PhotoGallery = ({
       rotation: -2,
       zIndex: 40,
       direction: "left" as Direction,
-      src: "https://images.unsplash.com/photo-1542204165-65bf26472b9b?w=800&auto=format&fit=crop&q=60",
+      src: LoginImg,
     },
     {
       id: 3,
@@ -105,7 +111,7 @@ export const PhotoGallery = ({
       rotation: 2,
       zIndex: 30,
       direction: "right" as Direction,
-      src: "https://images.unsplash.com/photo-1627483262112-039e9a0a0f16?w=800&auto=format&fit=crop&q=60",
+      src: BerandaImg,
     },
     {
       id: 4,
@@ -115,7 +121,7 @@ export const PhotoGallery = ({
       rotation: 3,
       zIndex: 20,
       direction: "right" as Direction,
-      src: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&auto=format&fit=crop&q=60",
+      src: MencariDriverImg,
     },
     {
       id: 5,
@@ -125,7 +131,7 @@ export const PhotoGallery = ({
       rotation: -1,
       zIndex: 10,
       direction: "left" as Direction,
-      src: "https://images.unsplash.com/photo-1506744626753-2fea9f46cb99?w=800&auto=format&fit=crop&q=60",
+      src: PesananSelesaiImg,
     },
   ];
 
@@ -138,7 +144,7 @@ export const PhotoGallery = ({
       {/* <h3 className="z-20 mx-auto max-w-2xl justify-center bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100 bg-clip-text py-3 text-center text-4xl text-transparent md:text-5xl font-extrabold">
         Welcome to My <span className="text-pink-500"> Stories</span>
       </h3> */}
-      <div className="relative mb-8 h-[350px] w-full items-center justify-center lg:flex">
+      <div className="relative mb-8 h-[650px] w-full items-center justify-center lg:flex">
         <motion.div
           className="relative mx-auto flex w-full max-w-7xl justify-center"
           initial={{ opacity: 0 }}
@@ -151,13 +157,13 @@ export const PhotoGallery = ({
             initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
           >
-            <div className="relative h-[220px] w-[220px]">
+            <div className="relative h-[544px] w-[250px]">
               {/* Render photos directly to avoid nested stacking context issues */}
               {[...photos].reverse().map((photo) => (
                 <Photo
                   key={photo.id}
-                  width={220}
-                  height={220}
+                  width={250}
+                  height={544}
                   src={photo.src}
                   alt="Story photo"
                   direction={photo.direction}
@@ -199,7 +205,7 @@ export const Photo = ({
   variants,
   ...props
 }: {
-  src: string;
+  src: string | StaticImageData;
   alt: string;
   className?: string;
   direction?: Direction;
