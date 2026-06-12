@@ -1,8 +1,8 @@
 "use client";
 
-import { Ref, forwardRef, useState, useEffect } from "react";
-import Image, { ImageProps } from "next/image";
-import { motion, useMotionValue } from "framer-motion";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -54,31 +54,36 @@ export const PhotoGallery = ({
       y: 0,
       rotate: 0,
       scale: 1,
-      // Keep the same z-index throughout animation
     }),
-    visible: (custom: { x: any; y: any; order: number }) => ({
+    visible: (custom: {
+      x: string;
+      y: string;
+      order: number;
+      rotation: number;
+    }) => ({
       x: custom.x,
       y: custom.y,
-      rotate: 0, // No rotation
+      rotate: custom.rotation,
       scale: 1,
       transition: {
         type: "spring",
         stiffness: 70,
         damping: 12,
         mass: 1,
-        delay: custom.order * 0.15, // Explicit delay based on order
+        delay: custom.order * 0.15,
       },
     }),
   };
 
-  // Photo positions - horizontal layout with random y offsets
+  // Photo positions - horizontal layout with pre-calculated rotations
   const photos = [
     {
       id: 1,
       order: 0,
       x: "-320px",
       y: "15px",
-      zIndex: 50, // Highest z-index (on top)
+      rotation: -3,
+      zIndex: 50,
       direction: "left" as Direction,
       src: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&auto=format&fit=crop&q=60",
     },
@@ -87,6 +92,7 @@ export const PhotoGallery = ({
       order: 1,
       x: "-160px",
       y: "32px",
+      rotation: -2,
       zIndex: 40,
       direction: "left" as Direction,
       src: "https://images.unsplash.com/photo-1542204165-65bf26472b9b?w=800&auto=format&fit=crop&q=60",
@@ -96,6 +102,7 @@ export const PhotoGallery = ({
       order: 2,
       x: "0px",
       y: "8px",
+      rotation: 2,
       zIndex: 30,
       direction: "right" as Direction,
       src: "https://images.unsplash.com/photo-1627483262112-039e9a0a0f16?w=800&auto=format&fit=crop&q=60",
@@ -105,6 +112,7 @@ export const PhotoGallery = ({
       order: 3,
       x: "160px",
       y: "22px",
+      rotation: 3,
       zIndex: 20,
       direction: "right" as Direction,
       src: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&auto=format&fit=crop&q=60",
@@ -114,7 +122,8 @@ export const PhotoGallery = ({
       order: 4,
       x: "320px",
       y: "44px",
-      zIndex: 10, // Lowest z-index (at bottom)
+      rotation: -1,
+      zIndex: 10,
       direction: "left" as Direction,
       src: "https://images.unsplash.com/photo-1506744626753-2fea9f46cb99?w=800&auto=format&fit=crop&q=60",
     },
@@ -143,27 +152,22 @@ export const PhotoGallery = ({
             animate={isLoaded ? "visible" : "hidden"}
           >
             <div className="relative h-[220px] w-[220px]">
-              {/* Render photos in reverse order so that higher z-index photos are rendered later in the DOM */}
+              {/* Render photos directly to avoid nested stacking context issues */}
               {[...photos].reverse().map((photo) => (
-                <motion.div
+                <Photo
                   key={photo.id}
-                  className="absolute left-0 top-0"
-                  style={{ zIndex: photo.zIndex }} // Apply z-index directly in style
+                  width={220}
+                  height={220}
+                  src={photo.src}
+                  alt="Story photo"
+                  direction={photo.direction}
+                  x={photo.x}
+                  y={photo.y}
+                  order={photo.order}
+                  zIndex={photo.zIndex}
+                  rotation={photo.rotation}
                   variants={photoVariants}
-                  custom={{
-                    x: photo.x,
-                    y: photo.y,
-                    order: photo.order,
-                  }}
-                >
-                  <Photo
-                    width={220}
-                    height={220}
-                    src={photo.src}
-                    alt="Story photo"
-                    direction={photo.direction}
-                  />
-                </motion.div>
+                />
               ))}
             </div>
           </motion.div>
@@ -178,22 +182,6 @@ export const PhotoGallery = ({
   );
 };
 
-function getRandomNumberInRange(min: number, max: number): number {
-  if (min >= max) {
-    throw new Error("Min value should be less than max value");
-  }
-  return Math.random() * (max - min) + min;
-}
-
-const MotionImage = motion(
-  forwardRef(function MotionImage(
-    props: ImageProps,
-    ref: Ref<HTMLImageElement>,
-  ) {
-    return <Image ref={ref} {...props} />;
-  }),
-);
-
 type Direction = "left" | "right";
 
 export const Photo = ({
@@ -203,6 +191,12 @@ export const Photo = ({
   direction,
   width,
   height,
+  x,
+  y,
+  order,
+  zIndex,
+  rotation,
+  variants,
   ...props
 }: {
   src: string;
@@ -211,34 +205,17 @@ export const Photo = ({
   direction?: Direction;
   width: number;
   height: number;
+  x: string;
+  y: string;
+  order: number;
+  zIndex: number;
+  rotation: number;
+  variants: any;
 }) => {
-  const [rotation, setRotation] = useState<number>(0);
-  const x = useMotionValue(200);
-  const y = useMotionValue(200);
-
-  useEffect(() => {
-    const randomRotation =
-      getRandomNumberInRange(1, 4) * (direction === "left" ? -1 : 1);
-    setRotation(randomRotation);
-  }, []);
-
-  function handleMouse(event: {
-    currentTarget: { getBoundingClientRect: () => any };
-    clientX: number;
-    clientY: number;
-  }) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    x.set(event.clientX - rect.left);
-    y.set(event.clientY - rect.top);
-  }
-
-  const resetMouse = () => {
-    x.set(200);
-    y.set(200);
-  };
-
   return (
     <motion.div
+      custom={{ x, y, order, rotation }}
+      variants={variants}
       drag
       dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
       whileTap={{ scale: 1.2, zIndex: 9999 }}
@@ -251,14 +228,11 @@ export const Photo = ({
         scale: 1.1,
         zIndex: 9999,
       }}
-      initial={{ rotate: 0 }}
-      animate={{ rotate: rotation }}
       style={{
         width,
         height,
+        zIndex, // Set base zIndex
         perspective: 400,
-        transform: `rotate(0deg) rotateX(0deg) rotateY(0deg)`,
-        zIndex: 1,
         WebkitTouchCallout: "none",
         WebkitUserSelect: "none",
         userSelect: "none",
@@ -266,15 +240,13 @@ export const Photo = ({
       }}
       className={cn(
         className,
-        "relative mx-auto shrink-0 cursor-grab active:cursor-grabbing shadow-[0_15px_30px_rgba(0,0,0,0.4)]",
+        "absolute left-0 top-0 mx-auto shrink-0 cursor-grab active:cursor-grabbing shadow-[0_15px_30px_rgba(0,0,0,0.4)]",
       )}
-      onMouseMove={handleMouse}
-      onMouseLeave={resetMouse}
       draggable={false}
       tabIndex={0}
     >
       <div className="relative h-full w-full overflow-hidden rounded-3xl border-4 border-[#3A0719]">
-        <MotionImage
+        <Image
           className={cn("rounded-2xl object-cover")}
           fill
           src={src}
