@@ -1,6 +1,9 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { PhotoGallery } from "@/components/ui/gallery";
+import TestingYukkaImg from "@/components/asset/testing-yukka.jpeg";
+import ProfilPikoImg from "@/components/asset/profil-piko.jpeg";
 
 export default function Home() {
   return (
@@ -462,8 +465,14 @@ export default function Home() {
 
         <div className="grid md:grid-cols-3 gap-8 items-start">
           <div className="bg-gradient-to-br from-[#4f0b20] to-[#b81040] p-6 rounded-[2rem] border border-rose-500/20 shadow-2xl text-center hover:-translate-y-1 hover:border-pink-500/40 transition-all duration-300">
-            <div className="w-full aspect-square bg-white/5 rounded-2xl flex items-center justify-center font-bold text-slate-500 text-xs mb-5 overflow-hidden">
-              ⏳ [Foto Sesi UT Penguji]
+            <div className="relative w-full aspect-square bg-white/5 rounded-2xl flex items-center justify-center font-bold text-slate-500 text-xs mb-5 overflow-hidden border border-white/10">
+              <Image 
+                src={TestingYukkaImg} 
+                alt="Foto Sesi UT Penguji - Yukka" 
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
             </div>
             <p className="font-extrabold text-base text-white">
               User Tester Persona
@@ -569,8 +578,14 @@ export default function Home() {
           <div className="inline-block rounded-full px-4 py-1.5 bg-white/5 text-slate-400 border border-white/10 text-[10px] font-bold uppercase tracking-widest mb-8">
             Creator Profile
           </div>
-          <div className="w-32 h-32 bg-white/5 border-4 border-white/10 shadow-[0_0_30px_rgba(236,72,153,0.3)] rounded-full flex items-center justify-center text-slate-500 font-bold text-xs overflow-hidden mb-6">
-            ⏳ [Foto Profil]
+          <div className="relative w-32 h-32 bg-white/5 border-4 border-white/10 shadow-[0_0_30px_rgba(236,72,153,0.3)] rounded-full flex items-center justify-center text-slate-500 font-bold text-xs overflow-hidden mb-6">
+            <Image 
+              src={ProfilPikoImg} 
+              alt="Foto Profil - Ficko Daniar Fachryza Putra" 
+              fill
+              className="object-cover"
+              sizes="128px"
+            />
           </div>
           <h5 className="font-extrabold text-white text-xl">
             Ficko Daniar Fachryza Putra
@@ -580,15 +595,30 @@ export default function Home() {
           </p>
 
           <div className="flex gap-6 mt-8 text-sm font-bold text-slate-400">
-            <span className="hover:text-pink-500 cursor-pointer transition-colors">
+            <a 
+              href="https://www.linkedin.com/in/ficko-daniar-214a91380?utm_source=share_via&utm_content=profile&utm_medium=member_ios" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:text-pink-500 cursor-pointer transition-colors"
+            >
               LinkedIn
-            </span>
-            <span className="hover:text-rose-500 cursor-pointer transition-colors">
+            </a>
+            <a 
+              href="https://www.instagram.com/fickodnr/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:text-rose-500 cursor-pointer transition-colors"
+            >
               Instagram
-            </span>
-            <span className="hover:text-white cursor-pointer transition-colors">
+            </a>
+            <a 
+              href="https://github.com/Pikoo1922" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:text-white cursor-pointer transition-colors"
+            >
               GitHub
-            </span>
+            </a>
           </div>
         </div>
       </section>
