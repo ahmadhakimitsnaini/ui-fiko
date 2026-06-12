@@ -1,8 +1,16 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
-export function NeuralNoise({ color = [0.9, 0.2, 0.4], opacity = 0.95, speed = 0.001 }: { color?: [number, number, number], opacity?: number, speed?: number }) {
+export function NeuralNoise({
+  color = [0.9, 0.2, 0.4],
+  opacity = 0.95,
+  speed = 0.001,
+}: {
+  color?: [number, number, number];
+  opacity?: number;
+  speed?: number;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pointer = useRef({ x: 0, y: 0, tX: 0, tY: 0 }).current;
 
@@ -68,9 +76,10 @@ export function NeuralNoise({ color = [0.9, 0.2, 0.4], opacity = 0.95, speed = 0
       `;
       const canvasEl = canvasRef.current;
       if (!canvasEl) return null;
-      gl = (canvasEl.getContext('webgl') || canvasEl.getContext('experimental-webgl')) as WebGLRenderingContext;
+      gl = (canvasEl.getContext("webgl") ||
+        canvasEl.getContext("experimental-webgl")) as WebGLRenderingContext;
       if (!gl) {
-        console.error('WebGL not supported');
+        console.error("WebGL not supported");
         return null;
       }
       const vertexShader = createShader(gl, vsSource, gl.VERTEX_SHADER);
@@ -84,33 +93,44 @@ export function NeuralNoise({ color = [0.9, 0.2, 0.4], opacity = 0.95, speed = 0
       gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
       gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
       gl.useProgram(shaderProgram);
-      const positionLocation = gl.getAttribLocation(shaderProgram, 'a_position');
+      const positionLocation = gl.getAttribLocation(
+        shaderProgram,
+        "a_position",
+      );
       gl.enableVertexAttribArray(positionLocation);
       gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
       return gl;
     }
 
-    function createShader(gl: WebGLRenderingContext, source: string, type: number) {
+    function createShader(
+      gl: WebGLRenderingContext,
+      source: string,
+      type: number,
+    ) {
       const shader = gl.createShader(type);
       if (!shader) return null;
       gl.shaderSource(shader, source);
       gl.compileShader(shader);
       if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error('Shader compile error:', gl.getShaderInfoLog(shader));
+        console.error("Shader compile error:", gl.getShaderInfoLog(shader));
         gl.deleteShader(shader);
         return null;
       }
       return shader;
     }
 
-    function createProgram(gl: WebGLRenderingContext, vs: WebGLShader, fs: WebGLShader) {
+    function createProgram(
+      gl: WebGLRenderingContext,
+      vs: WebGLShader,
+      fs: WebGLShader,
+    ) {
       const program = gl.createProgram();
       if (!program) return null;
       gl.attachShader(program, vs);
       gl.attachShader(program, fs);
       gl.linkProgram(program);
       if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-        console.error('Program link error:', gl.getProgramInfoLog(program));
+        console.error("Program link error:", gl.getProgramInfoLog(program));
         return null;
       }
       return program;
@@ -122,7 +142,10 @@ export function NeuralNoise({ color = [0.9, 0.2, 0.4], opacity = 0.95, speed = 0
       for (let i = 0; i < uniformCount; i++) {
         const uniformInfo = gl.getActiveUniform(program, i);
         if (uniformInfo) {
-          uniforms[uniformInfo.name] = gl.getUniformLocation(program, uniformInfo.name);
+          uniforms[uniformInfo.name] = gl.getUniformLocation(
+            program,
+            uniformInfo.name,
+          );
         }
       }
       return uniforms;
@@ -134,7 +157,11 @@ export function NeuralNoise({ color = [0.9, 0.2, 0.4], opacity = 0.95, speed = 0
       pointer.x += (pointer.tX - pointer.x) * 0.2;
       pointer.y += (pointer.tY - pointer.y) * 0.2;
       gl.uniform1f(uniforms.u_time, currentTime);
-      gl.uniform2f(uniforms.u_pointer_position, pointer.x / window.innerWidth, 1 - pointer.y / window.innerHeight);
+      gl.uniform2f(
+        uniforms.u_pointer_position,
+        pointer.x / window.innerWidth,
+        1 - pointer.y / window.innerHeight,
+      );
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       animationFrameId = requestAnimationFrame(render);
     }
@@ -156,38 +183,44 @@ export function NeuralNoise({ color = [0.9, 0.2, 0.4], opacity = 0.95, speed = 0
         pointer.tX = x;
         pointer.tY = y;
       };
-      const pointermove = (e: PointerEvent) => updateMousePosition(e.clientX, e.clientY);
+      const pointermove = (e: PointerEvent) =>
+        updateMousePosition(e.clientX, e.clientY);
       const touchmove = (e: TouchEvent) => {
-        if (e.targetTouches[0]) updateMousePosition(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+        if (e.targetTouches[0])
+          updateMousePosition(
+            e.targetTouches[0].clientX,
+            e.targetTouches[0].clientY,
+          );
       };
-      const click = (e: MouseEvent) => updateMousePosition(e.clientX, e.clientY);
-      
-      window.addEventListener('pointermove', pointermove as EventListener);
-      window.addEventListener('touchmove', touchmove as EventListener);
-      window.addEventListener('click', click as EventListener);
-      
+      const click = (e: MouseEvent) =>
+        updateMousePosition(e.clientX, e.clientY);
+
+      window.addEventListener("pointermove", pointermove as EventListener);
+      window.addEventListener("touchmove", touchmove as EventListener);
+      window.addEventListener("click", click as EventListener);
+
       return () => {
-        window.removeEventListener('pointermove', pointermove as EventListener);
-        window.removeEventListener('touchmove', touchmove as EventListener);
-        window.removeEventListener('click', click as EventListener);
+        window.removeEventListener("pointermove", pointermove as EventListener);
+        window.removeEventListener("touchmove", touchmove as EventListener);
+        window.removeEventListener("click", click as EventListener);
       };
     }
 
     const devicePixelRatio = Math.min(window.devicePixelRatio, 2);
     gl = initShader();
     if (!gl) return;
-    
+
     const cleanupEvents = setupEvents();
     resizeCanvas();
     const resizeListener = () => resizeCanvas();
-    window.addEventListener('resize', resizeListener);
-    
+    window.addEventListener("resize", resizeListener);
+
     gl.uniform3f(uniforms.u_color, color[0], color[1], color[2]);
     gl.uniform1f(uniforms.u_speed, speed);
     render();
-    
+
     return () => {
-      window.removeEventListener('resize', resizeListener);
+      window.removeEventListener("resize", resizeListener);
       cleanupEvents();
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
@@ -197,12 +230,12 @@ export function NeuralNoise({ color = [0.9, 0.2, 0.4], opacity = 0.95, speed = 0
     <canvas
       ref={canvasRef}
       style={{
-        position: 'fixed',
+        position: "fixed",
         top: 0,
         left: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
         opacity,
         zIndex: 0,
       }}

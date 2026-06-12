@@ -4,10 +4,21 @@ import Image from "next/image";
 import { PhotoGallery } from "@/components/ui/gallery";
 import TestingYukkaImg from "@/components/asset/testing-yukka.jpeg";
 import ProfilPikoImg from "@/components/asset/profil-piko.jpeg";
+import { GridPattern } from "@/components/ui/grid-pattern";
 
 export default function Home() {
   return (
     <main className="w-full min-h-screen bg-transparent font-sans text-white antialiased selection:bg-pink-600/30 selection:text-pink-200 overflow-x-hidden relative">
+      {/* GLOBAL GRID BACKGROUND */}
+      <div className="fixed inset-0 z-[-50] pointer-events-none">
+        <GridPattern
+          width={40}
+          height={40}
+          strokeDasharray="4 2"
+          className="fill-white/5 stroke-white/10 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]"
+        />
+      </div>
+
       {/* 🟢 NAVIGATION BAR */}
       <nav className="w-full bg-[#0D0D0D]/60 backdrop-blur-xl sticky top-0 z-50 border-b border-white/5 px-6 py-4">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
@@ -41,11 +52,7 @@ export default function Home() {
 
       {/* ================= HERO SECTION (Dark Neon Style) ================= */}
       <section className="w-full pt-20 pb-32 px-6 bg-transparent text-center relative overflow-hidden">
-        {/* ================= Ambient Neon Mesh Gradient ================= */}
-        <div className="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] bg-fuchsia-600/20 rounded-full blur-[120px] -z-10 animate-pulse"></div>
-        <div className="absolute top-[5%] right-[-5%] w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] bg-pink-600/20 rounded-full blur-[120px] -z-10"></div>
-        <div className="absolute bottom-[-20%] left-[15%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-rose-600/20 rounded-full blur-[100px] -z-10"></div>
-
+        
         <div className="max-w-4xl mx-auto relative z-10 flex flex-col items-center">
           <div className="mb-6 flex justify-center drop-shadow-2xl">
             <img
@@ -332,9 +339,7 @@ export default function Home() {
 
       {/* ================= 3. IDEATE SECTION ================= */}
       <div className="w-full relative overflow-hidden bg-transparent border-b border-white/5">
-        {/* Ambient Neon Glow */}
-        <div className="absolute top-[30%] left-[-10%] w-[500px] h-[500px] bg-pink-600/20 rounded-full blur-[120px] -z-10 animate-pulse"></div>
-
+        
         <section
           id="ideate"
           className="max-w-5xl relative z-10 mx-auto py-24 px-6 text-center md:text-left"
@@ -423,8 +428,7 @@ export default function Home() {
         id="prototype"
         className="max-w-5xl relative z-10 mx-auto py-24 px-6 text-center md:text-left border-b border-white/5"
       >
-        <div className="absolute top-[20%] left-[-20%] w-[500px] h-[500px] bg-rose-600/10 rounded-full blur-[120px] -z-10"></div>
-
+        
         <div className="text-center mb-12">
           <h3 className="text-3xl font-extrabold tracking-tight text-white">
             4. Prototype
@@ -452,7 +456,6 @@ export default function Home() {
         id="test"
         className="max-w-5xl mx-auto py-24 px-6 text-sm text-slate-400 border-b border-white/5 relative"
       >
-        <div className="absolute top-[40%] right-[-20%] w-[600px] h-[600px] bg-rose-600/10 rounded-full blur-[120px] -z-10"></div>
         <div className="text-center mb-16">
           <h3 className="text-3xl font-extrabold tracking-tight text-white">
             5. Test
