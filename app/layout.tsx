@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { NeuralNoise } from "@/components/ui/neural-noise";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,7 +28,6 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased bg-[#050505]`}
     >
       <body className="min-h-full flex flex-col relative bg-[#050505] text-[#ededed] overflow-x-hidden">
-        <NeuralNoise color={[1.0, 0.15, 0.4]} opacity={1.0} speed={0.001} />
         <main className="relative z-10 flex-1 flex flex-col">
           {children}
         </main>
